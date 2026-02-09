@@ -21,30 +21,20 @@ app.add_middleware(
     allow_origins=["*"],   # later restrict
     allow_methods=["*"],
     allow_headers=["*"],
-)
-
-# @app.get("/")
-# def read_root():
-#     return {"message": "Welcome to the Data Storage API"}
-
-# @app.post("/api/store-data")
-# async def recieve_data(data: ExtractedData):
-#     print("✅ Received data:", data)
-#     return{"message": "Data received successfully"}
-    
+)   
 
 @app.post("/api/store-data")
 def store_data(data: ExtractedData, collection: Collection = Depends(get_collection)):
     try:
         document = data.model_dump()
-        collection.insert_one(document)
+        result = collection.insert_one(document)
         return {
             "message": "Data stored successfully",
-            # "inserted_id": str(result.inserted_id)
+            "inserted_id": str(result.inserted_id)
         }
 
     except Exception as e:
-        print("❌ ERROR OCCURRED:")
+        print(" ERROR OCCURRED:")
         traceback.print_exc()
 
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e

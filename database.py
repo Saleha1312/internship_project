@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
+import certifi
 
 load_dotenv()
-
 class DB:
     client: MongoClient | None = None
 
@@ -12,10 +12,14 @@ db = DB()
 def get_db_client():
     if db.client is None:
         MONGO_URI = os.getenv("MONGO_URI")
+        client = MongoClient(
+        MONGO_URI,
+        tlsCAFile=certifi.where()
+        )
         if not MONGO_URI:
-            raise Exception("❌ MONGO_URI not found in .env")
-        db.client = MongoClient(MONGO_URI)
-        print("✅ Connected to MongoDB")
+            raise Exception("MONGO_URI not found in .env")
+        db.client = client
+        print("Connected to MongoDB")
     return db.client
 
 def get_collection():
@@ -25,4 +29,4 @@ def get_collection():
 def close_mongo_connection():
     if db.client:
         db.client.close()
-        print("❌ Closed MongoDB connection")
+        print("Closed MongoDB connection")

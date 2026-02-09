@@ -16,23 +16,6 @@ document.getElementById("extract").addEventListener("click", () => {
 
         document.getElementById("output").value =
           JSON.stringify(results[0].result, null, 2);
-          // Send to backend API
-      // try {
-      //   const apiResponse = fetch('http://localhost:8000/api/store-data', {
-      //     method: 'POST',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify(response)
-      //   });
-        
-      //   if (apiResponse.ok) {
-      //     let status
-      //     status.textContent = 'Data saved successfully!';
-      //   } else {
-      //     status.textContent = 'Failed to save data';
-      //   }
-      // } catch (error) {
-      //   status.textContent = 'Error connecting to backend';
-      // }
     });
   });
 });
@@ -98,3 +81,29 @@ function startRealtimeExtraction() {
     data: latestData
   };
 }
+
+// changes start here
+// document.getElementById("extract").addEventListener("click", () => {
+
+//   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+
+//     chrome.scripting.executeScript(
+//       {
+//         target: { tabId: tabs[0].id },
+//         func: startRealtimeExtraction
+//       },
+//       (results) => {
+
+//         if (chrome.runtime.lastError) {
+//           document.getElementById("output").value =
+//             chrome.runtime.lastError.message;
+//           return;
+//         }
+
+//         document.getElementById("output").value =
+//           JSON.stringify(results[0].result, null, 2);
+//       }
+//     );
+//   });
+
+// });
