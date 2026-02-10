@@ -22,7 +22,7 @@ console.log("Background script loaded");
 
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (message.type === "SEND_TO_BACKEND") {
-    console.log("FETCH FUNCTION CALLED");
+    console.log("FETCH FUNCTION CALLED", message.extracteddata);
 
     // Clean data to avoid JSON errors
     const cleanData = JSON.parse(
